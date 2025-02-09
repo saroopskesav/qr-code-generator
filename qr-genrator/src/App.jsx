@@ -29,7 +29,7 @@ function App() {
           <input type="text" onChange={
             (e) => {setTemp(e.target.value)}}
             placeholder="Enter text to encode" />
-          <button className="button" 
+          <button className="buttons" 
             onClick={handleClick}>
             Generate
           </button>
@@ -47,7 +47,7 @@ function App() {
       <div className="output-box">
         <img src={qrCode} alt="" />
         <a href={qrCode} download="QRCode">
-          <button type="button">Download</button>
+          <button type="button" className='button'>Download</button>
         </a>
       </div>
     </div>

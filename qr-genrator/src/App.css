@@ -1,44 +1,92 @@
-@import url('http://fonts.cdnfonts.com/css/lilly');
-.App{
+/* Ensure the body and html take up the full height and width of the page */
+html, body {
+  height: 100%;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #040000; /* Optional: Add a background color for debugging */
+}
+
+/* Center the app container vertically and horizontally */
+.App {
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   gap: 50px;
+  min-height: 100vh; /* Ensure the container takes up at least the full viewport height */
+  width: 100%; /* Ensure the container takes up the full width */
   padding-top: 30px;
+  box-sizing: border-box; /* Include padding in the height calculation */
+  border: 2px solid rgb(5, 0, 0); /* Debugging border */
 }
-h1{
+
+h1 {
   font-family: 'Lilly', sans-serif;
   font-size: 50px;
+  margin: 0; /* Remove default margin */
 }
-.gen input{
+
+.gen input {
   height: 35px;
   width: 250px;
   font-size: 20px;
   padding-left: 5px;
 }
-button{
-  position: relative;
-  height: 38px;
-  width: 100px;
-  top: -2px;
-  font-size: 18px;
+
+.buttons {
+  padding: 12px 24px;
+  background-color: #007bff;
+  color: white;
+  font-size: 16px;
   border: none;
-  color: whitesmoke;
-  background-color: forestgreen;
-  box-shadow: 2px 2px 5px rgb(74, 182, 74);
+  border-radius: 8px;
   cursor: pointer;
+  transition: background-color 0.3s, transform 0.2s;
 }
-button:active{
-  box-shadow: none;
+
+.buttons:hover {
+  background-color: #588bc2;
+  transform: scale(1.05);
 }
-.extra{
+
+.buttons:active {
+  background-color: #004085;
+  transform: scale(1);
+}
+
+.button {
+  padding: 12px 24px;
+  background-color: #588bc2;
+  color: white;
+  font-size: 16px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s, transform 0.2s;
+}
+
+.button:hover {
+  background-color: #0056b3;
+  transform: scale(1.05);
+}
+
+.button:active {
+  background-color: #004085;
+  transform: scale(1);
+}
+
+.extra {
   padding-top: 20px;
   display: flex;
   justify-content: space-around;
   gap: 10px;
 }
-.output-box{
+
+.output-box {
   display: flex;
   flex-direction: column;
   align-items: center;
