@@ -36,7 +36,7 @@ function App() {
         </div>
         <div className="extra">
           <h5>Background Color:</h5>
-          <input type="color" onChange={(e) => 
+          <input className="input" type="color" onChange={(e) => 
           { setBgColor(e.target.value.substring(1)) }} />
           <h5>Dimension:</h5>
           <input type="range" min="200" max="600"
