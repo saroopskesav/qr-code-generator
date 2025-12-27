@@ -11,8 +11,9 @@
   },
   "dependencies": {
     "react": "^19.0.0",
-    "react-dom": "^19.0.0"
-    ,"qrcode": "^1.5.1"
+    "react-dom": "^19.0.0",
+    "qrcode": "^1.5.1",
+    "html5-qrcode": "^2.3.8"
   },
   "devDependencies": {
     "@eslint/js": "^9.19.0",
