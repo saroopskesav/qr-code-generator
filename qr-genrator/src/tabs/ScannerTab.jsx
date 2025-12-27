@@ -60,19 +60,17 @@ export default function ScannerTab() {
     }
   };
 
-  const stopCamera = () => {
-    if (scannerRef.current) {
-      scannerRef.current
-        .stop()
-        .then(() => {
-          scannerRef.current = null;
-          setCameraActive(false);
-        })
-        .catch((err) => {
-          console.error('Error stopping scanner:', err);
-          scannerRef.current = null;
-          setCameraActive(false);
-        });
+  const stopCamera = async () => {
+    try {
+      if (scannerRef.current) {
+        await scannerRef.current.stop();
+        scannerRef.current = null;
+      }
+    } catch (err) {
+      console.error('Error stopping scanner:', err);
+    } finally {
+      setCameraActive(false);
+      setError('');
     }
   };
 
