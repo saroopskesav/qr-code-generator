@@ -1,50 +1,79 @@
 import { useState, useRef, useEffect } from 'react';
+import { Html5QrcodeScanner } from 'html5-qrcode';
 
 export default function ScannerTab() {
   const [scannedCode, setScannedCode] = useState('');
   const [cameraActive, setCameraActive] = useState(false);
   const [error, setError] = useState('');
-  const videoRef = useRef(null);
+  const scannerRef = useRef(null);
   const [copied, setCopied] = useState(false);
+  const [isInitializing, setIsInitializing] = useState(false);
 
   const startCamera = async () => {
     try {
       setError('');
-      const stream = await navigator.mediaDevices.getUserMedia({
-        video: { facingMode: 'environment' },
-      });
-      if (videoRef.current) {
-        videoRef.current.srcObject = stream;
-        setCameraActive(true);
-      }
+      setIsInitializing(true);
+      setCameraActive(true);
+
+      // Wait for DOM to render the qr-reader element
+      setTimeout(async () => {
+        try {
+          const scanner = new Html5QrcodeScanner(
+            'qr-reader',
+            {
+              fps: 10,
+              qrbox: { width: 250, height: 250 },
+              aspectRatio: 1.0,
+              rememberLastUsedCamera: true,
+              showTorchButtonIfSupported: true,
+            },
+            false
+          );
+
+          scannerRef.current = scanner;
+
+          await scanner.render(
+            (decodedText) => {
+              // Success callback
+              setScannedCode(decodedText);
+              console.log('QR Code detected:', decodedText);
+            },
+            (error) => {
+              // Error callback - silently continue scanning
+              console.log('Scanning for QR codes...');
+            }
+          );
+
+          setIsInitializing(false);
+        } catch (err) {
+          console.error('Scanner render error:', err);
+          setError(`Camera Error: ${err.message || 'Unable to start camera. Make sure you have granted camera permission in your browser settings.'}`);
+          setCameraActive(false);
+          setIsInitializing(false);
+        }
+      }, 100);
     } catch (err) {
-      setError('Unable to access camera. Make sure you have granted permission.');
-      console.error('Camera error:', err);
+      console.error('Scanner error:', err);
+      setError(`Camera Error: ${err.message || 'Unable to start camera. Make sure you have granted camera permission.'}`);
+      setCameraActive(false);
+      setIsInitializing(false);
     }
   };
 
   const stopCamera = () => {
-    if (videoRef.current && videoRef.current.srcObject) {
-      videoRef.current.srcObject.getTracks().forEach((track) => track.stop());
-      setCameraActive(false);
+    if (scannerRef.current) {
+      scannerRef.current
+        .stop()
+        .then(() => {
+          scannerRef.current = null;
+          setCameraActive(false);
+        })
+        .catch((err) => {
+          console.error('Error stopping scanner:', err);
+          scannerRef.current = null;
+          setCameraActive(false);
+        });
     }
-  };
-
-  const captureFrame = async () => {
-    if (!videoRef.current) return;
-
-    const canvas = document.createElement('canvas');
-    canvas.width = videoRef.current.videoWidth;
-    canvas.height = videoRef.current.videoHeight;
-    const ctx = canvas.getContext('2d');
-    ctx.drawImage(videoRef.current, 0, 0);
-
-    // Simulate QR code detection (in production, use html5-qrcode library)
-    const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
-    console.log('Image captured for QR detection:', imageData);
-
-    // Placeholder: simulate a detected code
-    setScannedCode('https://example.com/detected');
   };
 
   async function handleCopy() {
@@ -75,28 +104,16 @@ export default function ScannerTab() {
         {error && <div className="error">{error}</div>}
 
         {!cameraActive ? (
-          <button className="btn primary big" onClick={startCamera}>
-            📱 Start Camera
+          <button className="btn primary big" onClick={startCamera} disabled={isInitializing}>
+            {isInitializing ? '⏳ Initializing...' : '📱 Start Camera'}
           </button>
         ) : (
           <>
-            <div className="camera-feed">
-              <video
-                ref={videoRef}
-                autoPlay
-                playsInline
-                style={{ width: '100%', borderRadius: '10px' }}
-              />
-              <div className="scanning-overlay">
-                <div className="scan-box" />
-              </div>
-            </div>
+            {isInitializing && <p style={{ textAlign: 'center', color: '#888' }}>Loading camera...</p>}
+            <div className="camera-feed" id="qr-reader" style={{ width: '100%', maxWidth: '600px', margin: '0 auto' }} />
             <div className="scanner-actions">
-              <button className="btn primary" onClick={captureFrame}>
-                📸 Capture & Scan
-              </button>
               <button className="btn" onClick={stopCamera}>
-                Stop Camera
+                ⏹️ Stop Camera
               </button>
             </div>
           </>
@@ -105,24 +122,26 @@ export default function ScannerTab() {
         {scannedCode && (
           <div className="scanned-result">
             <div className="result-card">
-              <h4>Scanned Code</h4>
+              <h4>✅ Scanned Code</h4>
               <p className="scanned-text">{scannedCode}</p>
               <div className="result-actions">
                 <a href={scannedCode} target="_blank" rel="noopener noreferrer">
                   <button className="btn primary">🔗 Open Link</button>
                 </a>
                 <button className="btn" onClick={handleCopy}>
-                  Copy
+                  {copied ? '✓ Copied!' : 'Copy'}
                 </button>
               </div>
             </div>
           </div>
         )}
 
-        <div className="scanner-info info-box">
-          <h4>💡 Tip</h4>
-          <p>Point your camera at a QR code and tap "Capture & Scan" to decode it.</p>
-        </div>
+        {!cameraActive && (
+          <div className="scanner-info info-box">
+            <h4>💡 Tip</h4>
+            <p>Point your camera at a QR code and the scanner will automatically detect it.</p>
+          </div>
+        )}
       </div>
 
       {copied && <div className="toast" role="status">Copied!</div>}
