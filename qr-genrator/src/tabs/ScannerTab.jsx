@@ -123,9 +123,7 @@ export default function ScannerTab() {
               <h4>✅ Scanned Code</h4>
               <p className="scanned-text">{scannedCode}</p>
               <div className="result-actions">
-                <a href={scannedCode} target="_blank" rel="noopener noreferrer">
-                  <button className="btn primary">🔗 Open Link</button>
-                </a>
+                <a className="btn primary" href={scannedCode} target="_blank" rel="noopener noreferrer">🔗 Open Link</a>
                 <button className="btn" onClick={handleCopy}>
                   {copied ? '✓ Copied!' : 'Copy'}
                 </button>

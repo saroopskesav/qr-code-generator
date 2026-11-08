@@ -35,7 +35,7 @@ export default function HistoryTab({ history, setHistory }) {
         {history.length === 0 ? (
           <div className="empty-history">
             <p>No QR codes generated yet.</p>
-            <p>Go to Simple or Formats tab to create and save history.</p>
+            <p>Go to Create or Formats to make your first QR code.</p>
           </div>
         ) : (
           <div className="history-list">

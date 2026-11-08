@@ -1,44 +1,18 @@
-# React + Vite
+# QR Studio
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A responsive QR code toolkit built with React and Vite. Create and customize QR codes, generate codes for email, phone, SMS, WiFi and contacts, preview multiple sizes, create batches, add a logo, scan codes and view your recent history.
 
-Currently, two official plugins are available:
+## Run locally
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
-
-## QR Generator (React + Vite)
-
-Lightweight QR code generator built with React and Vite.
-
-### Features
-
-- Generate QR codes locally (no external API) using the `qrcode` package.
-- Live preview, download as PNG, copy source text, clear input.
-- Responsive, modern UI with a theme toggle (dark / light).
-
-### Run locally
-
-1. Install dependencies
+From the `qr-genrator` directory:
 
 ```bash
-cd /Users/saroopskesav/Downloads/GITHUB/qr-code-generator/qr-genrator
-npm install
-```
-
-2. Start dev server
-
-```bash
+npm ci
 npm run dev
 ```
 
-Open the URL shown by Vite (usually `http://localhost:5173`).
+Open the local URL printed by Vite. Use `npm run build` for a production build and `npm run lint` to run ESLint.
 
-### Notes
+## Data and browser permissions
 
-- The app stores the theme (dark/light) in `localStorage`.
-- QR codes are generated client-side — no network calls to third-party APIs.
-
-### Contributing
-
-- Feel free to open PRs or suggest UI/UX improvements.
+QR codes are generated in the browser. Theme preference, history (up to 50 entries) and favorites are stored in the browser's local storage, so avoid using shared devices for sensitive data. The scanner requires camera permission. Logo overlay loads the supplied image URL, which may require the image server to allow cross-origin access.

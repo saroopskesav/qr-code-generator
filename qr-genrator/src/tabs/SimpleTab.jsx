@@ -71,20 +71,28 @@ export default function SimpleTab({ addToHistory, toggleFavorite, isFavorited })
     <section className="tab-panel">
       <div className="content-row">
         <div className="controls-panel">
+          <div className="panel-heading">
+            <div>
+              <span className="panel-kicker">01 / THE DETAILS</span>
+              <h2>Create your code</h2>
+              <p>Start with something you want to share.</p>
+            </div>
+            <span className="panel-symbol" aria-hidden="true">↗</span>
+          </div>
           <label className="field">
-            <span className="label">Text / URL</span>
+            <span className="label">Your link or text</span>
             <input
               className="text-input"
               type="text"
               value={input}
               onChange={(e) => setInput(e.target.value)}
               onKeyDown={handleKeyDown}
-              placeholder="Enter text or URL"
+              placeholder="https://example.com"
             />
           </label>
 
           <div className="row">
-            <div className="field small">
+            <label className="field small">
               <span className="label">Size</span>
               <input
                 className="range"
@@ -96,9 +104,9 @@ export default function SimpleTab({ addToHistory, toggleFavorite, isFavorited })
                 aria-label="QR size"
               />
               <div className="value">{size}px</div>
-            </div>
+            </label>
 
-            <div className="field small">
+            <label className="field small">
               <span className="label">Error Correction</span>
               <select
                 className="select"
@@ -110,7 +118,7 @@ export default function SimpleTab({ addToHistory, toggleFavorite, isFavorited })
                 <option value="Q">Q (25%)</option>
                 <option value="H">H (30%)</option>
               </select>
-            </div>
+            </label>
           </div>
 
           <div className="row">
@@ -149,7 +157,7 @@ export default function SimpleTab({ addToHistory, toggleFavorite, isFavorited })
               onClick={handleGenerate}
               disabled={!input.trim()}
             >
-              Generate
+              Generate QR code <span aria-hidden="true">↗</span>
             </button>
             <button
               className="btn"
@@ -169,10 +177,14 @@ export default function SimpleTab({ addToHistory, toggleFavorite, isFavorited })
 
         <div className="preview-section">
           <div className="preview-card" role="region" aria-label="QR preview">
+            <div className="preview-heading">
+              <span>02 / THE PREVIEW</span>
+              <span className="preview-badge"><span className="status-dot" /> {dataUrl ? 'READY' : 'WAITING'}</span>
+            </div>
             {loading ? (
               <div className="loader">Generating...</div>
             ) : dataUrl ? (
-              <>
+              <div className="preview-result">
                 <img
                   className="qr-image"
                   src={dataUrl}
@@ -181,9 +193,7 @@ export default function SimpleTab({ addToHistory, toggleFavorite, isFavorited })
                   height={size}
                 />
                 <div className="preview-actions">
-                  <a href={dataUrl} download={`qrcode-${Date.now()}.png`}>
-                    <button className="btn primary big">Download</button>
-                  </a>
+                  <a className="btn primary big" href={dataUrl} download={`qrcode-${Date.now()}.png`}>Download <span aria-hidden="true">↓</span></a>
                   <button
                     className={`btn ${isFavorited(text) ? 'active' : ''}`}
                     onClick={() => toggleFavorite(text)}
@@ -191,10 +201,26 @@ export default function SimpleTab({ addToHistory, toggleFavorite, isFavorited })
                     {isFavorited(text) ? '❤️' : '🤍'} Favorite
                   </button>
                 </div>
-              </>
+              </div>
             ) : (
-              <div className="empty">Try an example: <span className="example">https://example.com</span></div>
+              <div className="empty-preview">
+                <div className="empty-art" aria-hidden="true">
+                  <svg viewBox="0 0 120 120" fill="none">
+                    <rect x="11" y="11" width="36" height="36" rx="5" stroke="currentColor" strokeWidth="6" />
+                    <rect x="22" y="22" width="14" height="14" rx="2" fill="currentColor" />
+                    <rect x="73" y="11" width="36" height="36" rx="5" stroke="currentColor" strokeWidth="6" />
+                    <rect x="84" y="22" width="14" height="14" rx="2" fill="currentColor" />
+                    <rect x="11" y="73" width="36" height="36" rx="5" stroke="currentColor" strokeWidth="6" />
+                    <rect x="22" y="84" width="14" height="14" rx="2" fill="currentColor" />
+                    <path d="M61 14v12M61 39v19H47M13 60h22M61 72v13h14v-13h12M98 61h11v14H98v12h11v22H91M61 99v10h15" stroke="currentColor" strokeWidth="6" strokeLinecap="round" strokeLinejoin="round" />
+                  </svg>
+                  <span className="empty-sparkle">✳</span>
+                </div>
+                <h3>A little square, a lot of possibility.</h3>
+                <p>Your QR code will appear here once you hit generate.</p>
+              </div>
             )}
+            <div className="preview-footnote"><span aria-hidden="true">✦</span> YOUR NEXT GREAT IDEA STARTS HERE</div>
           </div>
         </div>
       </div>

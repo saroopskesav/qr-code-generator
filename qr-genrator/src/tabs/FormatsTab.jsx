@@ -343,9 +343,7 @@ export default function FormatsTab({ addToHistory, toggleFavorite, isFavorited }
               <>
                 <img className="qr-image" src={dataUrl} alt={`${format} QR code`} />
                 <div className="preview-actions">
-                  <a href={dataUrl} download={`qrcode-${format}-${Date.now()}.png`}>
-                    <button className="btn primary big">Download</button>
-                  </a>
+                  <a className="btn primary big" href={dataUrl} download={`qrcode-${format}-${Date.now()}.png`}>Download</a>
                   <button className="btn outline" onClick={handleCopy}>
                     Copy
                   </button>

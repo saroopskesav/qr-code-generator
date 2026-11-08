@@ -311,7 +311,7 @@ export default function AdvancedTab({ addToHistory, toggleFavorite, isFavorited 
               </label>
 
               <div className="row">
-                <div className="field small">
+                <label className="field small">
                   <span className="label">Main Size</span>
                   <input
                     className="range"
@@ -322,9 +322,9 @@ export default function AdvancedTab({ addToHistory, toggleFavorite, isFavorited 
                     onChange={(e) => setSize(Number(e.target.value))}
                   />
                   <div className="value">{size}px</div>
-                </div>
+                </label>
 
-                <div className="field small">
+                <label className="field small">
                   <span className="label">Error Level</span>
                   <select className="select" value={errorLevel} onChange={(e) => setErrorLevel(e.target.value)}>
                     <option value="L">L (7%)</option>
@@ -332,11 +332,11 @@ export default function AdvancedTab({ addToHistory, toggleFavorite, isFavorited 
                     <option value="Q">Q (25%)</option>
                     <option value="H">H (30%)</option>
                   </select>
-                </div>
+                </label>
               </div>
 
               <div className="row">
-                <div className="field small color-field">
+                <label className="field small color-field">
                   <span className="label">Dark</span>
                   <input
                     className="color-input"
@@ -344,8 +344,8 @@ export default function AdvancedTab({ addToHistory, toggleFavorite, isFavorited 
                     value={darkColor}
                     onChange={(e) => setDarkColor(e.target.value)}
                   />
-                </div>
-                <div className="field small color-field">
+                </label>
+                <label className="field small color-field">
                   <span className="label">Light</span>
                   <input
                     className="color-input"
@@ -353,7 +353,7 @@ export default function AdvancedTab({ addToHistory, toggleFavorite, isFavorited 
                     value={bgColor}
                     onChange={(e) => setBgColor(e.target.value)}
                   />
-                </div>
+                </label>
               </div>
 
               <div className="actions">
